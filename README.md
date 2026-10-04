@@ -84,6 +84,25 @@ URL** field under "Advanced" in the dashboard's config panel.
 4. Scroll to **ESG impact report** and click **Generate ESG narrative**, then
    **Download PDF report** for a shareable one-pager.
 
+## Sensors (Tech, AI, Infrastructure)
+
+The **Sensors** section of the page lets you pick one of three hourly sensor streams, configure it, simulate it live, and run the planner on it instead of the built-in load forecast.
+
+| Sensor | Data file | Source |
+|---|---|---|
+| Tech | `data/sensors/tech_nxtra.csv` | Nxtra by Airtel FY 2025-26 mix and grid factor, scaled to 1 MW |
+| AI | `data/sensors/ai_combined.csv` | Training + inference cluster, high-emission grid |
+| Infrastructure | `data/sensors/infra.csv` | Synthetic India data-centre telemetry (Kolkata hyperscale site, 96 h with 6 grid-outage hours), built by `infra_sensor.py` |
+
+- **Configure:** load scale, grid carbon intensity multiplier, sensor noise. "Size site assets to this sensor" fills solar, battery and diesel capacity from the sensor's peak load.
+- **Simulate:** streams the readings live with noise; shows load, CO2 per hour and cumulative CO2.
+- **Grid outage:** the toggle in the dashboard turns the grid off for the chosen hours (wrapping past midnight is supported, e.g. 22 to 2). Diesel is only allowed in those hours. Outage hours are outlined in the timeline, and any load the site cannot serve is reported as unserved instead of being hidden.
+- **Run planner:** sends `sensor_id` plus the configuration to `POST /api/plan`. The sensor's readings replace the load forecast and the diurnal grid-intensity model. The result compares the plan against the all-grid baseline and the CO2 the sensor recorded.
+- **CSV format for a new sensor:** one power column named `facility_power_kw`, `power_kw` or `load_kw`; optional `timestamp`, `grid_intensity_g_per_kwh`, `co2_kg`, `grid_kw`, `solar_kw`, `wind_kw`, `diesel_kw`. At least 6 hourly rows.
+- **API:** `GET /api/sensors`, `GET /api/sensors/{id}/data`, `POST /api/sensors/{id}/upload` (JSON body `{"csv": "..."}`).
+
+Note: `requirements.txt` pins `pulp<3.0`. In testing, PuLP 4.0 found no CBC solver, which makes the planner silently fall back to the greedy allocator.
+
 ## What's simulated vs. real
 
 Per the report's own scoping (Section 7, Data Sources):

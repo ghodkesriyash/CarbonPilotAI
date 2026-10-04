@@ -173,6 +173,56 @@
   .step h3{ font-size:14.5px; font-weight:600; margin-bottom:6px; }
   .step p{ font-size:13px; color:var(--text-dim); margin:0; }
 
+  /* ---------- sensors ---------- */
+  .sensor-cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px; }
+  .sensor-card{
+    --accent:var(--solar);
+    background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px;
+    cursor:pointer; position:relative; transition:border-color .15s;
+  }
+  .sensor-card:hover{ border-color:var(--border-strong); }
+  .sensor-card:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .sensor-card.active{ border-color:var(--accent); }
+  .sensor-card.active::before{ content:""; position:absolute; left:0; top:14px; bottom:14px; width:3px; border-radius:0 3px 3px 0; background:var(--accent); }
+  .sensor-card.waiting{ cursor:default; }
+  .sensor-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .sensor-dom{ font-family:var(--font-mono); font-size:12px; color:var(--accent); }
+  .sensor-state{ display:flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:11.5px; color:var(--text-dim); }
+  .sensor-state .dot{ width:6px; height:6px; }
+  .sensor-state .dot.wait{ background:var(--grid); }
+  .sensor-card h3{ font-size:16px; font-weight:600; margin-bottom:6px; }
+  .sensor-card p{ font-size:13px; color:var(--text-dim); margin:0 0 16px; }
+  .sensor-stats{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px 10px; }
+  .sensor-stats b{ display:block; font-family:var(--font-mono); font-weight:500; font-size:15px; }
+  .sensor-stats span{ font-size:11.5px; color:var(--text-faint); }
+  .mix-bar{ display:flex; height:6px; border-radius:3px; overflow:hidden; margin-top:14px; gap:1px; }
+  .mix-bar i{ display:block; height:100%; }
+  .mix-legend{ font-size:11.5px; color:var(--text-faint); margin-top:6px; font-family:var(--font-mono); }
+  .upload-btn{ display:inline-block; margin-top:4px; cursor:pointer; }
+  .upload-btn input{ display:none; }
+  .upload-hint{ font-size:11.5px; color:var(--text-faint); margin-top:10px; }
+  .sensor-panel{ display:none; grid-template-columns:300px 1fr; gap:28px; align-items:start; }
+  .sensor-panel.show{ display:grid; }
+  .sim-head{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
+  .sim-head h3{ margin:0; }
+  .readout{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px; }
+  .readout b{ display:block; font-family:var(--font-mono); font-weight:500; font-size:19px; }
+  .readout span{ font-size:11.5px; color:var(--text-dim); }
+  .btn-row{ display:flex; gap:8px; margin-bottom:10px; }
+  .btn-row .btn{ padding:11px 14px; }
+  .config-note{ font-size:12px; color:var(--text-faint); margin:0 0 14px; }
+  .data-wrap{ max-height:250px; overflow:auto; margin-top:18px; border-top:1px solid var(--border); }
+  .data-table{ width:100%; border-collapse:collapse; font-family:var(--font-mono); font-size:12px; }
+  .data-table th{ position:sticky; top:0; background:var(--surface); color:var(--text-dim); font-weight:500; text-align:right; padding:8px 10px; border-bottom:1px solid var(--border); }
+  .data-table td{ text-align:right; padding:6px 10px; color:var(--text-dim); border-bottom:1px solid var(--border); }
+  .data-table th:first-child, .data-table td:first-child{ text-align:left; }
+  .run-result{ display:none; margin-top:16px; padding-top:16px; border-top:1px solid var(--border); font-size:13px; }
+  .run-result h4{ margin:0 0 10px; font-family:var(--font-display); font-size:13.5px; font-weight:600; }
+  .run-result .rr{ display:flex; justify-content:space-between; padding:4px 0; color:var(--text-dim); }
+  .run-result .rr b{ font-family:var(--font-mono); font-weight:500; color:var(--text); }
+  .run-result .rr b.good{ color:var(--solar); }
+  .run-result a{ color:var(--solar); }
+
   /* ---------- dashboard ---------- */
   .dash-grid{ display:grid; grid-template-columns:300px 1fr; gap:28px; align-items:start; }
   .config-card{ background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:22px; position:sticky; top:88px; }
@@ -188,10 +238,11 @@
   .field-row .field{ flex:1; }
   .toggle-row{ display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
   .toggle-row label{ font-size:13px; color:var(--text); }
-  .switch{ position:relative; width:38px; height:21px; }
+  .switch{ position:relative; display:block; flex:none; width:38px; height:21px; cursor:pointer; }
   .switch input{ opacity:0; width:0; height:0; }
   .slider-tog{ position:absolute; inset:0; background:var(--border-strong); border-radius:20px; cursor:pointer; transition:.2s; }
   .slider-tog::before{ content:""; position:absolute; width:15px; height:15px; left:3px; top:3px; background:var(--text); border-radius:50%; transition:.2s; }
+  .switch input:focus-visible + .slider-tog{ outline:2px solid var(--solar); outline-offset:2px; }
   .switch input:checked + .slider-tog{ background:var(--solar); }
   .switch input:checked + .slider-tog::before{ transform:translateX(17px); background:#0A140D; }
   .advanced{ margin-top:6px; }
@@ -215,6 +266,7 @@
 
   .timeline-strip{ display:flex; gap:2px; height:56px; }
   .timeline-strip .blk{ flex:1; border-radius:2px; opacity:0; position:relative; }
+  .timeline-strip .blk.outage{ box-shadow:inset 0 0 0 2px #EDF2EE; }
   .timeline-ticks{ display:flex; margin-top:6px; }
   .timeline-ticks span{ flex:1; text-align:center; font-family:var(--font-mono); font-size:10.5px; color:var(--text-faint); }
 
@@ -238,7 +290,8 @@
   .foot-bottom{ margin-top:36px; padding-top:20px; border-top:1px solid var(--border); font-size:12px; color:var(--text-faint); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
 
   @media (max-width: 880px){
-    .hero-grid, .dash-grid, .foot-grid{ grid-template-columns:1fr; }
+    .hero-grid, .dash-grid, .foot-grid, .sensor-cards, .sensor-panel.show{ grid-template-columns:1fr; }
+    .readout{ grid-template-columns:repeat(2,1fr); }
     .feature-grid{ grid-template-columns:1fr; }
     .steps{ grid-template-columns:1fr; }
     .stat-row{ grid-template-columns:repeat(2,1fr); }
@@ -262,6 +315,7 @@
     <div class="navlinks">
       <a href="#how-it-works">How it works</a>
       <a href="#models">Models</a>
+      <a href="#sensors">Sensors</a>
       <a href="#dashboard">Dashboard</a>
       <a href="#report">ESG report</a>
     </div>
@@ -367,6 +421,62 @@
   </div>
 </section>
 
+<section id="sensors">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Sensors, one per industry domain</h2>
+      <p>Each sensor is an hourly stream of power draw and grid carbon intensity. Pick one, adjust it, watch it run, then hand its readings to the planner in place of the built-in forecast.</p>
+    </div>
+    <div class="sensor-cards" id="sensorCards">
+      <div class="chart-card" style="grid-column:1/-1; margin:0;"><p class="report-placeholder" style="margin:0;">Loading sensors from the backend…</p></div>
+    </div>
+
+    <div class="sensor-panel" id="sensorPanel">
+      <div class="config-card" style="position:static;">
+        <div class="field"><label>Selected sensor</label><div id="sensorSelLabel" style="font-weight:600; font-size:14.5px;">none</div></div>
+        <div class="field">
+          <label for="sLoad">Load scale — <span id="sLoadVal" class="mono">1.00×</span></label>
+          <input type="range" id="sLoad" min="0.5" max="2" step="0.05" value="1">
+          <div class="range-labels"><span>0.5×</span><span>2×</span></div>
+        </div>
+        <div class="field">
+          <label for="sEf">Grid carbon intensity — <span id="sEfVal" class="mono">1.00×</span></label>
+          <input type="range" id="sEf" min="0.5" max="1.5" step="0.05" value="1">
+          <div class="range-labels"><span>cleaner grid</span><span>dirtier grid</span></div>
+        </div>
+        <div class="field">
+          <label for="sNoise">Sensor noise — <span id="sNoiseVal" class="mono">3%</span></label>
+          <input type="range" id="sNoise" min="0" max="15" step="1" value="3">
+          <div class="range-labels"><span>steady</span><span>jittery</span></div>
+        </div>
+        <div class="toggle-row">
+          <label for="sAutosize">Size site assets to this sensor</label>
+          <label class="switch"><input type="checkbox" id="sAutosize" checked><span class="slider-tog"></span></label>
+        </div>
+        <p class="config-note" id="sizeSummary">Fills solar, battery and diesel capacity in the planner from this sensor's peak load.</p>
+        <div class="btn-row">
+          <button class="btn btn-ghost" id="simBtn" style="flex:1;">Start simulation</button>
+          <button class="btn btn-ghost" id="simResetBtn">Reset</button>
+        </div>
+        <button class="btn btn-primary" id="sRunBtn" style="width:100%;">Run planner on this sensor</button>
+        <div class="run-result" id="sensorResult"></div>
+      </div>
+
+      <div class="chart-card" style="margin:0;">
+        <div class="sim-head"><h3 id="simTitle">Sensor stream</h3><span class="badge" id="simMode">preview</span></div>
+        <div class="readout">
+          <div><b id="rdLoad">–</b><span id="rdLoadL">load</span></div>
+          <div><b id="rdCo2">–</b><span id="rdCo2L">CO₂ per hour</span></div>
+          <div><b id="rdEf">–</b><span>grid g CO₂/kWh</span></div>
+          <div><b id="rdCum">–</b><span id="rdCumL">CO₂ total</span></div>
+        </div>
+        <div class="chart-wrap"><canvas id="simChart"></canvas></div>
+        <div class="data-wrap"><table class="data-table" id="sensorTable"></table></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="dashboard">
   <div class="wrap">
     <div class="section-head">
@@ -376,6 +486,16 @@
 
     <div class="dash-grid">
       <div class="config-card">
+        <div class="field">
+          <label for="loadSource">Load source</label>
+          <select id="loadSource">
+            <option value="forecast">Built-in load forecast</option>
+            <option value="tech">Tech sensor</option>
+            <option value="ai">AI sensor</option>
+            <option value="infra">Infrastructure sensor</option>
+          </select>
+        </div>
+
         <div class="field">
           <label for="citySelect">Site</label>
           <select id="citySelect">
@@ -405,12 +525,14 @@
 
         <div class="toggle-row">
           <label for="outageToggle">Simulate a grid outage</label>
-          <div class="switch"><input type="checkbox" id="outageToggle"><span class="slider-tog"></span></div>
+          <label class="switch"><input type="checkbox" id="outageToggle"><span class="slider-tog"></span></label>
         </div>
         <div class="field-row" id="outageHours" style="display:none;">
           <div class="field"><label>Outage from (hr)</label><input type="number" id="outageStart" value="14" min="0" max="23"></div>
-          <div class="field"><label>Outage until (hr)</label><input type="number" id="outageEnd" value="17" min="0" max="23"></div>
+          <div class="field"><label>Outage until (hr)</label><input type="number" id="outageEnd" value="17" min="0" max="24"></div>
         </div>
+
+        <div class="config-note" id="outageHint" style="display:none;"></div>
 
         <details class="advanced">
           <summary>Advanced: capacity &amp; pricing</summary>
@@ -426,6 +548,9 @@
             <div class="field"><label>Grid price (₹/kWh)</label><input type="number" id="gridPrice" value="8.0" step="0.1"></div>
             <div class="field"><label>Diesel price (₹/L)</label><input type="number" id="dieselPrice" value="95" step="1"></div>
           </div>
+          <div class="field-row">
+            <div class="field"><label>Diesel gen (kW)</label><input type="number" id="dieselMax" value="600"></div>
+          </div>
           <div class="field"><label>Backend API base URL</label><input type="text" id="apiBase" value="http://localhost:8000"></div>
         </details>
 
@@ -435,6 +560,7 @@
 
       <div id="results">
         <div class="badge-row" id="engineBadges" style="display:none;"></div>
+        <div class="err-box" id="planAlert" style="margin:0 0 18px;"></div>
 
         <div class="kpi-grid" id="kpiGrid" style="display:none;">
           <div class="kpi"><div class="lbl">Energy cost</div><div class="val" id="kpiCost">₹0</div><div class="delta" id="kpiCostDelta"></div></div>
@@ -452,6 +578,7 @@
             <div class="legend-item"><span class="legend-sw" style="background:var(--solar)"></span>Solar</div>
             <div class="legend-item"><span class="legend-sw" style="background:var(--battery)"></span>Battery</div>
             <div class="legend-item"><span class="legend-sw" style="background:var(--diesel)"></span>Diesel</div>
+            <div class="legend-item"><span class="legend-sw" style="background:transparent; box-shadow:inset 0 0 0 2px #EDF2EE;"></span>Grid outage hour</div>
           </div>
         </div>
 
@@ -610,6 +737,7 @@ async function runPlanner(){
   btn.disabled = true;
   btn.textContent = 'Running…';
 
+  if(activeSensor && document.getElementById('loadSource').value !== 'forecast') maybeAutosize();
   const city = document.getElementById('citySelect').value;
   const coords = CITY_COORDS[city];
   const payload = {
@@ -620,7 +748,7 @@ async function runPlanner(){
     solar_capacity_kw: parseFloat(document.getElementById('solarCapacity').value),
     battery_capacity_kwh: parseFloat(document.getElementById('batteryCapacity').value),
     battery_max_rate_kw: parseFloat(document.getElementById('batteryRate').value),
-    diesel_max_kw: 600,
+    diesel_max_kw: parseFloat(document.getElementById('dieselMax').value),
     grid_price_per_kwh: parseFloat(document.getElementById('gridPrice').value),
     diesel_price_per_l: parseFloat(document.getElementById('dieselPrice').value),
     carbon_priority: parseInt(document.getElementById('carbonSlider').value, 10) / 100,
@@ -628,6 +756,13 @@ async function runPlanner(){
     outage_start_hour: parseInt(document.getElementById('outageStart').value, 10),
     outage_end_hour: parseInt(document.getElementById('outageEnd').value, 10),
   };
+  if(activeSensor && document.getElementById('loadSource').value !== 'forecast'){
+    const c = sensorCfg();
+    payload.sensor_id = activeSensor;
+    payload.sensor_load_scale = c.scale;
+    payload.sensor_grid_multiplier = c.mult;
+    payload.sensor_noise_pct = c.noise;
+  }
 
   try{
     const r = await fetch(apiBase() + '/api/plan', {
@@ -637,6 +772,7 @@ async function runPlanner(){
     const plan = await r.json();
     lastPlan = plan;
     renderPlan(plan);
+    updateSensorResult(plan);
     checkHealth();
   }catch(e){
     errBox.textContent = 'Could not reach the planner API (' + e.message + '). Make sure the backend is running: python app.py — and that the API base URL above is correct.';
@@ -659,7 +795,9 @@ function renderPlan(plan){
   document.getElementById('engineBadges').innerHTML =
     '<span class="badge">engine: ' + plan.optimizer_engine + '</span>' +
     '<span class="badge">weather: ' + plan.weather_source + '</span>' +
-    '<span class="badge">' + plan.hourly.length + 'h horizon</span>';
+    '<span class="badge">' + plan.hourly.length + 'h horizon</span>' +
+    (plan.totals.outage_hours > 0 ? '<span class="badge">grid outage: ' + plan.totals.outage_hours + ' h</span>' : '') + sensorBadges(plan);
+  showPlanAlert(plan);
 
   // KPIs
   document.getElementById('kpiGrid').style.display = 'grid';
@@ -692,8 +830,8 @@ function renderPlan(plan){
     const sources = { grid:h.grid_kw, solar:h.solar_kw, battery:h.battery_discharge_kw, diesel:h.diesel_kw };
     const dominant = Object.entries(sources).sort((a,b)=>b[1]-a[1])[0][0];
     const d = document.createElement('div');
-    d.className = 'blk';
-    d.title = new Date(h.timestamp).toLocaleTimeString([], {hour:'2-digit'}) + ' — ' + dominant;
+    d.className = 'blk' + (h.grid_outage ? ' outage' : '');
+    d.title = new Date(h.timestamp).toLocaleTimeString([], {hour:'2-digit'}) + ' — ' + dominant + (h.grid_outage ? ' (grid outage)' : '');
     d.style.background = SRC_COLOR[dominant];
     strip.appendChild(d);
     const t = document.createElement('span');
@@ -725,13 +863,23 @@ function renderPlan(plan){
       { label:'Solar', data: plan.hourly.map(h=>h.solar_kw), backgroundColor:SRC_COLOR.solar, stack:'s' },
       { label:'Battery', data: plan.hourly.map(h=>h.battery_discharge_kw), backgroundColor:SRC_COLOR.battery, stack:'s' },
       { label:'Diesel', data: plan.hourly.map(h=>h.diesel_kw), backgroundColor:SRC_COLOR.diesel, stack:'s' },
-    ]},
+    ].concat(plan.totals.unserved_kwh > 0 ? [{ label:'Unserved load', data: plan.hourly.map(h=>h.unserved_kw), backgroundColor:'#EDF2EE', stack:'s' }] : [])},
     options: chartOptions(true)
   });
 
   // reset narrative section for the new plan
   document.getElementById('narrativeText').innerHTML = '<span class="report-placeholder">Click "Generate ESG narrative" to summarise this run.</span>';
   document.getElementById('narrativeBadge').style.display = 'none';
+}
+
+function showPlanAlert(plan){
+  const box = document.getElementById('planAlert');
+  const t = plan.totals;
+  if(t.unserved_kwh > 0){
+    box.textContent = 'During the grid outage the site could not serve ' + Math.round(t.unserved_kwh).toLocaleString('en-IN') +
+      ' kWh of its load. Raise the diesel generator capacity or battery size under Advanced, or turn on "Size site assets to this sensor".';
+    box.style.display = 'block';
+  } else { box.style.display = 'none'; }
 }
 
 function chartOptions(stacked){
@@ -788,15 +936,321 @@ async function downloadPdf(){
   }
 }
 
+/* ---------------- sensors ---------------- */
+const SENSOR_ACCENT = { tech:'#4FC3D9', ai:'#7CDB8A', infra:'#E8B34D' };
+const SIM_WINDOW = 36;
+let sensors = [];
+let activeSensor = null;
+const sensorRows = {};
+let simChart = null, simTimer = null, simIdx = 0, simCum = 0, simState = 'idle';
+
+function fmtNum(v, d){ return Number(v).toLocaleString('en-IN', { maximumFractionDigits: d || 0 }); }
+function el(id){ return document.getElementById(id); }
+function sensorCfg(){ return { scale: parseFloat(el('sLoad').value), mult: parseFloat(el('sEf').value), noise: parseFloat(el('sNoise').value) }; }
+function gauss(){ let u = 0, v = 0; while(!u) u = Math.random(); while(!v) v = Math.random(); return Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v); }
+
+function sensorBadges(plan){
+  if(!plan.sensor) return '<span class="badge">load: built-in forecast</span>';
+  return '<span class="badge">sensor: ' + plan.sensor.label + '</span>' +
+         '<span class="badge">as recorded: ' + fmtNum(plan.sensor.recorded_co2_kg) + ' kg CO₂</span>';
+}
+
+async function loadSensors(){
+  const box = el('sensorCards');
+  try{
+    const r = await fetch(apiBase() + '/api/sensors', { signal: AbortSignal.timeout(4000) });
+    if(!r.ok) throw new Error('bad status');
+    sensors = await r.json();
+    renderSensorCards();
+    const first = sensors.find(x => x.ready);
+    if(first && !activeSensor) selectSensor(first.id);
+  }catch(e){
+    box.innerHTML = '<div class="chart-card" style="grid-column:1/-1; margin:0;"><p class="report-placeholder" style="margin:0;">Sensors are served by the backend. Start it with <span class="mono">python app.py</span>, then reload this page.</p></div>';
+  }
+}
+
+function renderSensorCards(){
+  const box = el('sensorCards');
+  box.innerHTML = '';
+  sensors.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'sensor-card' + (s.id === activeSensor ? ' active' : '') + (s.ready ? '' : ' waiting');
+    card.style.setProperty('--accent', SENSOR_ACCENT[s.id] || '#7CDB8A');
+    if(s.ready){ card.tabIndex = 0; card.setAttribute('role', 'button'); }
+    let body = '';
+    if(s.ready){
+      body = '<div class="sensor-stats">' +
+        '<div><b>' + fmtNum(s.mean_kw) + ' kW</b><span>mean load</span></div>' +
+        '<div><b>' + fmtNum(s.peak_kw) + ' kW</b><span>peak load</span></div>' +
+        '<div><b>' + fmtNum(s.mean_ef) + ' g</b><span>grid CO₂ per kWh</span></div>' +
+        '<div><b>' + fmtNum(s.recorded_co2_kg) + ' kg</b><span>CO₂ over ' + s.rows + ' h</span></div></div>';
+      if(s.mix_pct){
+        const m = s.mix_pct;
+        body += '<div class="mix-bar">' +
+          '<i style="width:' + m.grid + '%; background:' + SRC_COLOR.grid + '"></i>' +
+          '<i style="width:' + m.solar + '%; background:' + SRC_COLOR.solar + '"></i>' +
+          '<i style="width:' + m.wind + '%; background:' + SRC_COLOR.battery + '"></i>' +
+          '<i style="width:' + m.diesel + '%; background:' + SRC_COLOR.diesel + '"></i></div>' +
+          '<div class="mix-legend">grid ' + m.grid + '% · solar ' + m.solar + '% · wind ' + m.wind + '% · diesel ' + m.diesel + '%</div>';
+      }
+    }
+    body += '<label class="upload-btn btn btn-ghost">' + (s.ready ? 'Update CSV' : 'Upload CSV') +
+            '<input type="file" accept=".csv,text/csv"></label>';
+    if(s.error) body += '<div class="upload-hint" style="color:#F2A99A;">' + s.error + '</div>';
+    else if(!s.ready) body += '<div class="upload-hint">Needs a power column (facility_power_kw, power_kw or load_kw). Timestamp and grid_intensity_g_per_kwh are optional.</div>';
+    card.innerHTML =
+      '<div class="sensor-top"><span class="sensor-dom">' + s.domain + '</span>' +
+      '<span class="sensor-state"><span class="dot ' + (s.ready ? 'up' : 'wait') + '"></span>' + (s.ready ? 'ready' : (s.error ? 'needs a valid CSV' : 'awaiting data')) + '</span></div>' +
+      '<h3>' + s.label + '</h3><p>' + s.blurb + '</p>' + body;
+    if(s.ready){
+      card.addEventListener('click', () => selectSensor(s.id));
+      card.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); selectSensor(s.id); } });
+    }
+    const up = card.querySelector('input[type=file]');
+    if(up){
+      up.addEventListener('click', e => e.stopPropagation());
+      up.parentElement.addEventListener('click', e => e.stopPropagation());
+      up.addEventListener('change', () => { if(up.files[0]) uploadSensorCsv(s.id, up.files[0]); });
+    }
+    box.appendChild(card);
+  });
+  // keep the dashboard's load-source dropdown in step with what's ready
+  sensors.forEach(s => {
+    const opt = el('loadSource').querySelector('option[value="' + s.id + '"]');
+    if(opt){ opt.disabled = !s.ready; opt.textContent = s.domain + ' sensor' + (s.ready ? '' : ' (awaiting data)'); }
+  });
+}
+
+async function uploadSensorCsv(id, file){
+  try{
+    const text = await file.text();
+    const r = await fetch(apiBase() + '/api/sensors/' + id + '/upload', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ csv: text })
+    });
+    if(!r.ok){ const e = await r.json().catch(() => ({ detail:'upload failed' })); throw new Error(typeof e.detail === 'string' ? e.detail : 'file too large or invalid'); }
+    delete sensorRows[id];
+    await loadSensors();
+    selectSensor(id);
+  }catch(e){
+    alert('Could not use that file: ' + e.message);
+  }
+}
+
+async function selectSensor(id){
+  const s = sensors.find(x => x.id === id);
+  if(!s || !s.ready) return;
+  stopSim();
+  activeSensor = id;
+  el('loadSource').value = id;
+  renderSensorCards();
+  el('sensorPanel').classList.add('show');
+  el('sensorSelLabel').textContent = s.label;
+  el('simTitle').textContent = s.label + ' stream';
+  if(!sensorRows[id]){
+    try{
+      const r = await fetch(apiBase() + '/api/sensors/' + id + '/data?limit=96');
+      if(!r.ok) throw new Error('bad status');
+      sensorRows[id] = (await r.json()).rows;
+    }catch(e){
+      alert('Could not load that sensor’s readings from the backend.');
+      return;
+    }
+  }
+  resetSim();
+  maybeAutosize();
+}
+
+function maybeAutosize(){
+  if(!el('sAutosize').checked || !activeSensor) return;
+  const s = sensors.find(x => x.id === activeSensor);
+  if(!s) return;
+  const k = parseFloat(el('sLoad').value);
+  const peak = s.peak_kw * k;
+  const r10 = v => Math.max(10, Math.round(v / 10) * 10);
+  el('dcCapacity').value = r10(peak * 1.1);
+  el('solarCapacity').value = r10((s.solar_peak_kw ? s.solar_peak_kw : peak * 0.4) * k);
+  el('batteryCapacity').value = r10(peak * 0.5);
+  el('batteryRate').value = r10(peak * 0.15);
+  el('dieselMax').value = r10(peak * 1.1);
+  updateSizeSummary();
+}
+
+function updateSizeSummary(){
+  const n = id => fmtNum(parseFloat(el(id).value));
+  el('sizeSummary').textContent = el('sAutosize').checked
+    ? 'Sized to this sensor: solar ' + n('solarCapacity') + ' kW, battery ' + n('batteryCapacity') + ' kWh at ' + n('batteryRate') + ' kW, diesel ' + n('dieselMax') + ' kW.'
+    : 'Not sizing automatically: the planner uses the capacities under Advanced.';
+}
+
+function updateOutageHint(){
+  const hint = el('outageHint');
+  if(!el('outageToggle').checked){ hint.style.display = 'none'; return; }
+  const a = parseInt(el('outageStart').value, 10), b = parseInt(el('outageEnd').value, 10);
+  let n = 0;
+  if(!isNaN(a) && !isNaN(b)) n = a < b ? b - a : (a > b ? 24 - a + b : 0);
+  hint.textContent = n === 0 ? 'Start and end are the same hour, so no outage is simulated.'
+    : 'Grid is off for ' + n + ' h (' + String(a).padStart(2,'0') + ':00 to ' + String(b % 24).padStart(2,'0') + ':00). Diesel is only allowed during these hours.';
+  hint.style.display = 'block';
+}
+
+function previewSeries(){
+  const c = sensorCfg();
+  return (sensorRows[activeSensor] || []).map(r => ({
+    t: new Date(r.timestamp).getHours() + ':00',
+    load: r.load_kw * c.scale,
+    co2: (r.grid_co2_kg * c.mult + r.other_co2_kg) * c.scale,
+    ef: r.grid_ef * c.mult,
+  }));
+}
+
+function ensureSimChart(){
+  if(simChart) return;
+  const o = chartOptions();
+  o.animation = false;
+  o.scales.y1 = { position:'right', grid:{ drawOnChartArea:false }, ticks:{ color:'#E2604F', font:{ family:'IBM Plex Mono', size:10.5 } } };
+  simChart = new Chart(el('simChart'), {
+    type:'line',
+    data:{ labels:[], datasets:[
+      { label:'Load (kW)', data:[], borderColor:'#EDF2EE', backgroundColor:'rgba(237,242,238,0.08)', tension:0.35, fill:true, pointRadius:0, yAxisID:'y' },
+      { label:'CO₂ (kg/h)', data:[], borderColor:'#E2604F', tension:0.35, pointRadius:0, yAxisID:'y1' },
+    ]},
+    options:o
+  });
+}
+
+function setReadouts(load, co2, ef, cum, live){
+  el('rdLoad').textContent = fmtNum(load) + ' kW';
+  el('rdCo2').textContent = fmtNum(co2) + ' kg';
+  el('rdEf').textContent = fmtNum(ef);
+  el('rdCum').textContent = fmtNum(cum) + ' kg';
+  el('rdLoadL').textContent = live ? 'load now' : 'mean load';
+  el('rdCo2L').textContent = live ? 'CO₂ this hour' : 'mean CO₂ per hour';
+  el('rdCumL').textContent = live ? 'CO₂ since start' : 'CO₂ over full series';
+}
+
+function showPreview(){
+  if(!activeSensor) return;
+  ensureSimChart();
+  const p = previewSeries();
+  simChart.data.labels = p.map(x => x.t);
+  simChart.data.datasets[0].data = p.map(x => x.load);
+  simChart.data.datasets[1].data = p.map(x => x.co2);
+  simChart.update('none');
+  const n = p.length || 1;
+  renderSensorTable();
+  setReadouts(p.reduce((a,x)=>a+x.load,0)/n, p.reduce((a,x)=>a+x.co2,0)/n, p.reduce((a,x)=>a+x.ef,0)/n, p.reduce((a,x)=>a+x.co2,0), false);
+  el('simMode').textContent = 'preview · full recorded series';
+  el('simBtn').textContent = 'Start simulation';
+  simState = 'idle';
+}
+
+function simTick(){
+  const rows = sensorRows[activeSensor];
+  if(!rows || !rows.length) return;
+  const c = sensorCfg();
+  const r = rows[simIdx % rows.length];
+  const jitter = Math.max(0.2, 1 + (c.noise / 100) * gauss());
+  const load = r.load_kw * c.scale * jitter;
+  const co2 = (r.grid_co2_kg * c.mult + r.other_co2_kg) * c.scale * jitter;
+  simCum += co2;
+  const d = simChart.data;
+  d.labels.push(new Date(r.timestamp).getHours() + ':00');
+  d.datasets[0].data.push(load);
+  d.datasets[1].data.push(co2);
+  if(d.labels.length > SIM_WINDOW){ d.labels.shift(); d.datasets[0].data.shift(); d.datasets[1].data.shift(); }
+  simChart.update('none');
+  setReadouts(load, co2, r.grid_ef * c.mult, simCum, true);
+  simIdx++;
+}
+
+function toggleSim(){
+  if(!activeSensor) return;
+  if(simState === 'running'){
+    clearInterval(simTimer); simTimer = null; simState = 'paused';
+    el('simBtn').textContent = 'Resume simulation';
+    el('simMode').textContent = 'paused';
+    return;
+  }
+  ensureSimChart();
+  if(simState === 'idle'){
+    simChart.data.labels = []; simChart.data.datasets.forEach(ds => ds.data = []);
+    simIdx = 0; simCum = 0;
+  }
+  simState = 'running';
+  el('simBtn').textContent = 'Pause simulation';
+  el('simMode').textContent = 'live stream';
+  simTimer = setInterval(simTick, 450);
+}
+
+function stopSim(){ if(simTimer){ clearInterval(simTimer); simTimer = null; } simState = 'idle'; }
+function resetSim(){ stopSim(); showPreview(); }
+
+function renderSensorTable(){
+  const t = el('sensorTable');
+  const p = previewSeries();
+  t.innerHTML = '<thead><tr><th>hour</th><th>load (kW)</th><th>grid g/kWh</th><th>CO₂ (kg)</th></tr></thead><tbody>' +
+    p.map(x => '<tr><td>' + x.t + '</td><td>' + fmtNum(x.load) + '</td><td>' + fmtNum(x.ef) + '</td><td>' + fmtNum(x.co2) + '</td></tr>').join('') + '</tbody>';
+}
+
+function updateSensorResult(plan){
+  const box = el('sensorResult');
+  if(!plan.sensor){ box.style.display = 'none'; return; }
+  const t = plan.totals, b = plan.baseline_totals, sv = plan.savings;
+  const row = (l, v, cls) => '<div class="rr"><span>' + l + '</span><b class="' + (cls || '') + '">' + v + '</b></div>';
+  box.innerHTML = '<h4>Planner result on this sensor</h4>' +
+    row('CO₂ with the plan', fmtNum(t.co2_kg) + ' kg') +
+    row('CO₂ if all grid', fmtNum(b.co2_kg) + ' kg') +
+    row('CO₂ as recorded by sensor', fmtNum(plan.sensor.recorded_co2_kg) + ' kg') +
+    row('Saved vs all grid', sv.co2_pct.toFixed(1) + '%', sv.co2_pct >= 0 ? 'good' : '') +
+    row('Energy cost', fmtMoney(t.cost_inr)) +
+    row('Diesel used', sv.diesel_liters.toFixed(1) + ' L') +
+    (t.outage_hours > 0 ? row('Grid outage', t.outage_hours + ' h, unserved ' + fmtNum(t.unserved_kwh) + ' kWh', t.unserved_kwh > 0 ? '' : 'good') : '') +
+    '<div style="margin-top:8px;"><a href="#dashboard">See the full hour-by-hour plan below</a></div>';
+  box.style.display = 'block';
+}
+
+function onSensorCfg(){
+  el('sLoadVal').textContent = parseFloat(el('sLoad').value).toFixed(2) + '×';
+  el('sEfVal').textContent = parseFloat(el('sEf').value).toFixed(2) + '×';
+  el('sNoiseVal').textContent = el('sNoise').value + '%';
+  renderSensorTable();
+  if(simState === 'idle') showPreview();
+}
+
+function onLoadSourceChange(){
+  const v = el('loadSource').value;
+  if(v === 'forecast') return;
+  selectSensor(v);
+}
+
 /* ---------------- wire up (only after anime.js + Chart.js are confirmed loaded) ---------------- */
 function initApp(){
   document.getElementById('carbonSlider').addEventListener('input', updateCarbonLabel);
   document.getElementById('outageToggle').addEventListener('change', (e)=>{
     document.getElementById('outageHours').style.display = e.target.checked ? 'flex' : 'none';
+    updateOutageHint();
   });
   document.getElementById('runBtn').addEventListener('click', runPlanner);
   document.getElementById('narrativeBtn').addEventListener('click', generateNarrative);
   document.getElementById('pdfBtn').addEventListener('click', downloadPdf);
+
+  ['sLoad','sEf','sNoise'].forEach(id => el(id).addEventListener('input', onSensorCfg));
+  el('sLoad').addEventListener('change', maybeAutosize);
+  el('sAutosize').addEventListener('change', () => { maybeAutosize(); updateSizeSummary(); });
+  ['dcCapacity','solarCapacity','batteryCapacity','batteryRate','dieselMax'].forEach(id => el(id).addEventListener('input', () => {
+    if(el('sAutosize').checked){ el('sAutosize').checked = false; }
+    updateSizeSummary();
+  }));
+  ['outageStart','outageEnd'].forEach(id => el(id).addEventListener('input', updateOutageHint));
+  el('simBtn').addEventListener('click', toggleSim);
+  el('simResetBtn').addEventListener('click', resetSim);
+  el('sRunBtn').addEventListener('click', async () => {
+    const b = el('sRunBtn'); b.disabled = true; b.textContent = 'Running…';
+    await runPlanner();
+    b.disabled = false; b.textContent = 'Run planner on this sensor';
+  });
+  el('loadSource').addEventListener('change', onLoadSourceChange);
+  loadSensors();
 
   paintHeroStrip();
   initScrollReveal();
